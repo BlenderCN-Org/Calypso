@@ -4,12 +4,19 @@ import java.util.*;
 
 import com.badlogic.gdx.*;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.nilunder.bdx.*;
+
+import com.theomn.calypso.Registry;
 
 public class BdxApp implements ApplicationListener {
 
+  private final FileHandle _registryFile = Gdx.files.external(".calypso/registry.json");
+
 	@Override
 	public void create(){
+    Registry.INSTANCE.load(this._registryFile);
+
 		Bdx.init();
 
 		Scene.instantiators = new HashMap<String, Instantiator>();
@@ -20,6 +27,8 @@ public class BdxApp implements ApplicationListener {
 
 	@Override
 	public void dispose(){
+    Registry.INSTANCE.save(this._registryFile);
+
 		Bdx.dispose();
 	}
 
