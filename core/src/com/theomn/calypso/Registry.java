@@ -1,10 +1,14 @@
 package com.theomn.calypso;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.*;
 import java.util.HashMap;
+import com.badlogic.gdx.Gdx;
 
 public enum Registry {
   INSTANCE;
+
+  private final FileHandle _registryFile = Gdx.files.external(".calypso/registry.json");
 
   private final HashMap<String, Object> _data = new HashMap<String, Object>();
   private final HashMap<String, Object> _persistentData = new HashMap<String, Object>();
@@ -41,12 +45,26 @@ public enum Registry {
     }
     return (T)result;
   }
-  
-  public final void save(String path) {
-    // TODO
+
+  /**
+   * Writes the persistent registry to disk
+   */
+  public final void save() {
+    Gson gson = new Gson();
+    String contents = gson.toJson(this._persistentData);
+    this._registryFile.writeString(contents, false);
   }
-  
-  public final void load(String path) {
-    // TODO
+
+  /**
+   * Loads the persistent registry from disk
+   */
+  private final void load() {
+    Gson gson = new Gson();
+    if (this._registryFile.exists()) {
+      String contents = this._registryFile.readString();
+      this._persistentData.putAll(
+          gson.fromJson(contents, this._persistentData.getClass())
+      );
+    }
   }
 }
