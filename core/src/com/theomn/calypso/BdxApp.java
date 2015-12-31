@@ -20,9 +20,10 @@ public class BdxApp implements ApplicationListener {
     Bdx.init();
 
     Scene.instantiators = new HashMap<String, Instantiator>();
+		Scene.instantiators.put("Scene", new com.theomn.calypso.inst.iScene());
     Scene.instantiators.put("Scene", new com.theomn.calypso.inst.iScene());
 
-    Bdx.scenes.add(new Scene("Scene"));
+		Bdx.scenes.add(new Scene("Scene"));
   }
 
   @Override
