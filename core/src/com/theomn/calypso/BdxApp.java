@@ -4,40 +4,49 @@ import java.util.*;
 
 import com.badlogic.gdx.*;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.nilunder.bdx.*;
+
+import com.theomn.calypso.Registry;
 
 public class BdxApp implements ApplicationListener {
 
-	@Override
-	public void create(){
-		Bdx.init();
+  @Override
+  public void create() {
+    Registry.INSTANCE.load(
+        Gdx.files.external(".calypso/registry.json")
+    );
 
-		Scene.instantiators = new HashMap<String, Instantiator>();
-		Scene.instantiators.put("Scene", new com.theomn.calypso.inst.iScene());
+    Bdx.init();
 
-		Bdx.scenes.add(new Scene("Scene"));
-	}
+    Scene.instantiators = new HashMap<String, Instantiator>();
+    Scene.instantiators.put("Scene", new com.theomn.calypso.inst.iScene());
 
-	@Override
-	public void dispose(){
-		Bdx.dispose();
-	}
+    Bdx.scenes.add(new Scene("Scene"));
+  }
 
-	@Override
-	public void render(){
-		Bdx.main();
-	}
+  @Override
+  public void dispose() {
+    Registry.INSTANCE.save();
 
-	@Override
-	public void resize(int width, int height){
-		Bdx.resize(width, height);
-	}
+    Bdx.dispose();
+  }
 
-	@Override
-	public void pause(){
-	}
+  @Override
+  public void render() {
+    Bdx.main();
+  }
 
-	@Override
-	public void resume(){
-	}
+  @Override
+  public void resize(int width, int height) {
+    Bdx.resize(width, height);
+  }
+
+  @Override
+  public void pause() {
+  }
+
+  @Override
+  public void resume() {
+  }
 }
