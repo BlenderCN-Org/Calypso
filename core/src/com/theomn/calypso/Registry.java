@@ -2,7 +2,9 @@ package com.theomn.calypso;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.*;
+
 import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 
 public enum Registry {
@@ -15,15 +17,17 @@ public enum Registry {
 
   /**
    * Sets the thing you drop into this
+   *
    * @param key
    * @param value
    */
   public final void set(String key, Object value) {
     this._data.put(key, value);
   }
-  
+
   /**
    * Sets the thing you drop into this into the persistent cache.
+   *
    * @param key
    * @param value
    */
@@ -34,15 +38,16 @@ public enum Registry {
   /**
    * Returns the thing or "otherwise" yo.
    * Checks the transient cache first, then the persistent cache.
+   *
    * @param key
    * @param otherwise
    * @return
    */
   public final <T> T get(String key, T otherwise) {
     if (this._data.containsKey(key)) {
-      return (T)this._data.get(key);
+      return (T) this._data.get(key);
     } else if (this._persistentData.containsKey(key)) {
-      return (T)this._persistentData.get(key);
+      return (T) this._persistentData.get(key);
     } else {
       return otherwise;
     }
