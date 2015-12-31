@@ -3,13 +3,22 @@ package com.theomn.calypso;
 import com.nilunder.bdx.Bdx;
 import com.nilunder.bdx.GameObject;
 
+
 public class Sacky extends GameObject {
 
-    public void main () {
+  private float jumpVelocity;
 
-        if(Bdx.keyboard.keyHit("space")) {
-            applyForce(0, 0, 300);
-        }
+  @Override
+  public void init() {
+    this.jumpVelocity = Registry.INSTANCE.get("sacky_jumpVelocity", 300.0).floatValue();
+  }
 
+  @Override
+  public void main() {
+
+    if (Bdx.keyboard.keyHit("space")) {
+      applyForce(0, 0, this.jumpVelocity);
     }
+
+  }
 }

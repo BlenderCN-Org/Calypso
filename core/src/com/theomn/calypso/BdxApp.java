@@ -11,11 +11,11 @@ import com.theomn.calypso.Registry;
 
 public class BdxApp implements ApplicationListener {
 
-  private final FileHandle _registryFile = Gdx.files.external(".calypso/registry.json");
-
 	@Override
 	public void create(){
-    Registry.INSTANCE.load(this._registryFile);
+    Registry.INSTANCE.load(
+        Gdx.files.external(".calypso/registry.json")
+    );
 
 		Bdx.init();
 
@@ -27,7 +27,7 @@ public class BdxApp implements ApplicationListener {
 
 	@Override
 	public void dispose(){
-    Registry.INSTANCE.save(this._registryFile);
+    Registry.INSTANCE.save();
 
 		Bdx.dispose();
 	}

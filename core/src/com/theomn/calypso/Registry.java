@@ -8,7 +8,7 @@ import com.badlogic.gdx.Gdx;
 public enum Registry {
   INSTANCE;
 
-
+  private FileHandle _registryFile;
 
   private final HashMap<String, Object> _data = new HashMap<String, Object>();
   private final HashMap<String, Object> _persistentData = new HashMap<String, Object>();
@@ -32,33 +32,40 @@ public enum Registry {
   }
 
   /**
-   * Returns the thing or null yo.
+   * Returns the thing or "otherwise" yo.
    * Checks the transient cache first, then the persistent cache.
    * @param key
-   * @param <T>
+   * @param otherwise
    * @return
    */
-  public final <T> T get(String key) {
-    Object result = this._data.get(key);
-    if (result == null) {
-      result = this._persistentData.get(key);
+  public final <T> T get(String key, T otherwise) {
+    if (this._data.containsKey(key)) {
+      return (T)this._data.get(key);
+    } else if (this._persistentData.containsKey(key)) {
+      return (T)this._persistentData.get(key);
+    } else {
+      return otherwise;
     }
-    return (T)result;
+  }
+
+  public final <T> T get(String key) {
+    return this.get(key, null);
   }
 
   /**
    * Writes the persistent registry to disk
    */
-  public final void save(FileHandle registryFile) {
+  public final void save() {
     Gson gson = new Gson();
     String contents = gson.toJson(this._persistentData);
-    registryFile.writeString(contents, false);
+    this._registryFile.writeString(contents, false);
   }
 
   /**
    * Loads the persistent registry from disk
    */
   public final void load(FileHandle registryFile) {
+    this._registryFile = registryFile;
     Gson gson = new Gson();
     if (registryFile.exists()) {
       String contents = registryFile.readString();
