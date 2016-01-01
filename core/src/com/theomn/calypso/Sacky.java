@@ -15,10 +15,6 @@ public class Sacky extends GameObject {
 
   @Override
   public void main() {
-
-    if (Bdx.keyboard.keyHit("space")) {
-      applyForce(0, 0, this.jumpVelocity);
-    }
-
+    // removed the sacky jump thing.
   }
 }
