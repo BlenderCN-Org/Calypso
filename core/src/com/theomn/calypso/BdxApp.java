@@ -20,9 +20,12 @@ public class BdxApp implements ApplicationListener {
     Bdx.init();
 
     Scene.instantiators = new HashMap<String, Instantiator>();
+		Scene.instantiators.put("Scene", new com.theomn.calypso.inst.iScene());
     Scene.instantiators.put("Scene", new com.theomn.calypso.inst.iScene());
 
-    Bdx.scenes.add(new Scene("Scene"));
+		Bdx.scenes.add(new Scene("Scene"));
+
+    Bdx.mouse.visible(false);
   }
 
   @Override
@@ -35,6 +38,10 @@ public class BdxApp implements ApplicationListener {
   @Override
   public void render() {
     Bdx.main();
+    // NOTE: developer escape hatch
+    if (Bdx.keyboard.keyHit("esc")) {
+      Gdx.app.exit();
+    }
   }
 
   @Override
